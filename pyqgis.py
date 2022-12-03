@@ -1,4 +1,4 @@
-from qgis.core import QgsDistanceArea, QgsPointXY
+from qgis.core import QgsDistanceArea, QgsPointXY, QgsUnitTypes
 
 # Calculate the ellipsoidal distance between two points with a stop
 taza = (34.2106, 3.9980)
@@ -16,5 +16,5 @@ point1 = QgsPointXY(lon1, lat1)
 point2 = QgsPointXY(lon2, lat2)
 point3 = QgsPointXY(lon3, lat3)
 
-d = d.measureLine([point1, point3]) + d.measureLine([point3, point2])
-print(f"{d/1000:.2f} km")
+distance = d.measureLine([point1, point3]) + d.measureLine([point3, point2])
+print(f"{d.convertLengthMeasurement(distance, QgsUnitTypes.DistanceKilometers):.3f} km")
