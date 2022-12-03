@@ -14,4 +14,4 @@ point1 = QgsPointXY(lon1, lat1)
 point2 = QgsPointXY(lon2, lat2)
 
 d = d.measureLine([point1, point2])
-print(d/1000)
+print(f"{d/1000:.2f} km")
