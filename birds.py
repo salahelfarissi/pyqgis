@@ -11,7 +11,7 @@ QgsProject.instance().removeAllMapLayers()
 
 # Add layers to the map
 # QgsProject.instance().addMapLayer(countriesLayer)
-# QgsProject.instance().addMapLayer(csvLayer)
+QgsProject.instance().addMapLayer(csvLayer)
 
 # Construct an iterator to iterate over the features of the layer
 iterator = csvLayer.getFeatures()
