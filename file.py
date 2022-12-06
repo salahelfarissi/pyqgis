@@ -1,11 +1,13 @@
-from qgis.core import QgsProject, QgsVectorLayer, QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsField, QgsPointXY, QgsFeature, QgsGeometry
+from qgis.core import QgsProject, QgsVectorLayer, QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsField, QgsPointXY, QgsFeature, QgsGeometry, QgsSpatialIndex
 from sklearn.cluster import DBSCAN
-import numpy as np
 from PyQt5.QtCore import QVariant
+import timeit
 
 # Import csv layer
 url = "file:///C:/Users/Salah/Documents/GitHub/pyqgis/data/black-tailed.csv?delimiter=%s&xField=%s&yField=%s&crs=epsg:4326" % (",", "location-long", "location-lat")
 csvLayer = QgsVectorLayer(url, "birds", "delimitedtext")
+
+countriesLayer = QgsVectorLayer("C:/Users/Salah/Documents/GitHub/pyqgis/data/countries/countries.shp", "Countries", "ogr")
 
 # Filter
 csvLayer.setSubsetString("\"individual-local-identifier\" = 'Rotterdam'")
@@ -29,9 +31,9 @@ clustering = DBSCAN(eps=15000, min_samples=25).fit(COORDS)
 labels = clustering.labels_
 print(len(labels))
 
-layerCluster = QgsVectorLayer("MultiPoint?crs=epsg:3857", "Zone arrêt", "memory")
-cur = layerCluster.dataProvider()
-layerCluster.startEditing()
+clusterLayer = QgsVectorLayer("MultiPoint?crs=epsg:3857", "Zone arrêt", "memory")
+cur = clusterLayer.dataProvider()
+clusterLayer.startEditing()
 
 cur.addAttributes( [
     QgsField("num", QVariant.String),
@@ -54,6 +56,25 @@ for numCluster in set(labels):
             # Enn on l’ajoute on fournisseur de la couche
             cur.addFeature(cluster)
 
-    layerCluster.commitChanges()
+    clusterLayer.commitChanges()
 
-QgsProject.instance().addMapLayer(layerCluster)
+QgsProject.instance().addMapLayer(clusterLayer)
+
+def occupancy_rate():
+    index = QgsSpatialIndex(countriesLayer.getFeatures())
+    for stop in clusterLayer.getFeatures() :
+        totalArea = stop.geometry().convexHull().area()
+        clusterBBOX = stop.geometry().boundingBox()
+        ids = index.intersects(clusterBBOX)
+        for countryId in ids:
+            country = countriesLayer.getFeature(countryId)
+            if stop.geometry().intersects(country.geometry()):
+                earthGeom = stop.geometry().intersection(country.geometry())
+                earthArea = earthGeom.convexHull().area()
+                if totalArea == 0:
+                    occu_rate = 0
+                else:
+                    occu_rate = earthArea / totalArea * 100
+                return occu_rate
+
+print ("Time: %s seconds " % timeit.timeit(occupancy_rate, number=1))
