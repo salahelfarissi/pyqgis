@@ -12,8 +12,8 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "PYTHONPATH": "C:/Program Files/QGIS 3.22.10/apps/qgis-ltr/python; C:/Program Files/QGIS 3.22.10/apps/qgis-ltr/python/plugins; C:/Program Files/QGIS 3.22.10/apps/Qt5/plugins; C:/Program Files/QGIS 3.22.10/apps/gdal/share/gdal",
-                "PATH": "C:/Program Files/QGIS 3.22.10/apps/Python39"
+                "PYTHONPATH": "C:/Program Files/QGIS 3.22.13/apps/qgis-ltr/python; C:/Program Files/QGIS 3.22.13/apps/qgis-ltr/python/plugins; C:/Program Files/QGIS 3.22.13/apps/Qt5/plugins; C:/Program Files/QGIS 3.22.13/apps/gdal/share/gdal",
+                "PATH": "C:/Program Files/QGIS 3.22.13/apps/Python39"
             }
         }
     ]
