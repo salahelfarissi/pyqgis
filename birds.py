@@ -1,7 +1,7 @@
 from qgis.core import QgsVectorLayer, QgsProject
 
 # Import csv layer
-url = "file:///C:/Users/Salah/Documents/GitHub/pyqgis/data/black-tailed.csv?delimiter=%s&xField=%s&yField=%s&crs=epsg:4326" % (",", "location-long", "location-lat")
+url = "file:///C:/Users/Salah/Documents/GitHub/pyqgis/data/black-tailed.csv?delimiter=%s&xField=%s&yField=%s&crs=epsg:%s" % (",", "location-long", "location-lat", 4326)
 csvLayer = QgsVectorLayer(url, "Birds", "delimitedtext")
 
 # Add countries layer
