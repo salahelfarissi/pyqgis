@@ -1,5 +1,4 @@
 from qgis.core import QgsVectorLayer, QgsProject
-import os
 
 # Import csv layer
 url = "file:///C:/Users/Salah/Documents/GitHub/pyqgis/data/black-tailed.csv?delimiter=%s&xField=%s&yField=%s&crs=epsg:%s" % (",", "location-long", "location-lat", 4326)
