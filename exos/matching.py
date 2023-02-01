@@ -32,12 +32,17 @@ def match_tables(table1, table2, threshold):
     print("Dataframe Contents ", newdata, sep='\n')
     return geopandas.GeoDataFrame(newdata, geometry='geometry')
 
-p1 = geopandas.read_file('data/donnees_tp_2022_2023/ilots_verniquet.shp')
-p2 = geopandas.read_file('data/donnees_tp_2022_2023//ilots_vasserot.shp')
+p1 = geopandas.read_file('data/matching/ilots_verniquet.shp')
+p2 = geopandas.read_file('data/matching//ilots_vasserot.shp')
 
 print(p1.crs)
 print(p2.crs)
 newdata = match_tables(p1,p2,0.2)
 newdata.crs = p1.crs
-os.mkdir('./data/match')
+# Create the directory if it does not exist
+if not os.path.exists('./data/match'):
+    os.mkdir('./data/match')
+# Remove the file if it exists
+if os.path.isfile('./data/match/match.shp'):
+    os.remove('./data/match/match.shp')
 newdata.to_file('./data/match/match.shp')
