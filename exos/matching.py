@@ -1,6 +1,7 @@
 import geopandas
 from shapely.geometry import LineString
 import pandas as pd
+import os
 
 def match(geom1, geom2, threshold1, threshold2):
     if geom1.intersects(geom2):
@@ -38,4 +39,5 @@ print(p1.crs)
 print(p2.crs)
 newdata = match_tables(p1,p2,0.2)
 newdata.crs = p1.crs
-newdata.to_file('./data/tmp/match.shp')
+os.mkdir('./data/match')
+newdata.to_file('./data/match/match.shp')
