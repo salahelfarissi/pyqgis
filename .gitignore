@@ -7,3 +7,5 @@ processing
 
 **/match/
 .idea/workspace.xml
+
+*.pgw
